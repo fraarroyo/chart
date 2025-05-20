@@ -2,40 +2,35 @@
 
 ## BERT Architecture
 ```mermaid
-graph TB
-    subgraph Text Processing
-        BERT[BERT Model]
-        TextEmbed[Text Embedding]
-        TextMatch[Text Matching]
-    end
-
-    subgraph Integration
-        MatchAlgo[Matching Algorithm]
-        ScoreCalc[Score Calculation]
-    end
-
-    BERT --> TextEmbed
-    TextEmbed --> MatchAlgo
-    TextMatch --> MatchAlgo
-    ScoreCalc --> MatchAlgo
+graph TD
+    A[Input Text] --> B[Tokenization]
+    B --> C[Input Embeddings]
+    C --> D[Positional Embeddings]
+    D --> E[Sum + LayerNorm + Dropout]
+    E --> F[Transformer Encoder Layer 1]
+    F --> G[Transformer Encoder Layer 2]
+    G --> H[... N Layers ...]
+    H --> I[Final Encoder Output]
+    I --> J[Task-specific Head (e.g., Classification, QA, etc.)]
 ```
 
 ## RNN Architecture
 ```mermaid
-graph TB
-    subgraph Text Processing
-        RNN[RNN Model]
-        TextMatch[Text Matching]
+graph TD
+    A[Input Sequence] --> B[RNN/LSTM Cell t=1]
+    B --> C[RNN/LSTM Cell t=2]
+    C --> D[RNN/LSTM Cell t=3]
+    D --> E[... t=T ...]
+    E --> F[Final Output / Sequence Output]
+    subgraph Hidden State Flow
+        B1[Hidden State t=0] --> B
+        B --> C1[Hidden State t=1]
+        C1 --> C
+        C --> D1[Hidden State t=2]
+        D1 --> D
+        D --> E1[Hidden State t=3]
+        E1 --> E
     end
-
-    subgraph Integration
-        MatchAlgo[Matching Algorithm]
-        ScoreCalc[Score Calculation]
-    end
-
-    RNN --> TextMatch
-    TextMatch --> MatchAlgo
-    ScoreCalc --> MatchAlgo
 ```
 
 ## Detailed BERT Architecture
